@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SAKILA</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:#000;
+    color:#fff;
+    font-family:'Inter', sans-serif;
+    overflow:auto;
+    padding-bottom:110px;
+}
+
+/* LOADING */
+#loading{
+    position:fixed;
+    inset:0;
+    background:#000;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:9999;
+}
+
+#loading h1{
+    font-size:3rem;
+    letter-spacing:14px;
+    animation:softBounce 1.5s infinite ease-in-out;
+}
+
+@keyframes softBounce{
+    0%{transform:translateY(0) scale(1); opacity:0.4;}
+    50%{transform:translateY(-12px) scale(1.08); opacity:1;}
+    100%{transform:translateY(0) scale(1); opacity:0.4;}
+}
+
+/* HEADER */
+.hover-zone{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:80px;
+    z-index:1001;
+}
+
+header{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    display:flex;
+    justify-content:center;
+    padding:20px 0;
+    opacity:0;
+    transform:translateY(-15px);
+    transition:0.35s ease;
+    pointer-events:none;
+    z-index:1002;
+}
+
+.hover-zone:hover + header,
+header:hover{
+    opacity:1;
+    transform:translateY(0);
+    pointer-events:auto;
+}
+
+header a{
+    color:#aaa;
+    text-decoration:none;
+    font-size:0.95rem;
+    letter-spacing:3px;
+    margin:0 12px;
+    transition:0.3s;
+}
+
+header a:hover{
+    color:#fff;
+}
+
+/* MAIN */
+main{
+    padding-top:80px;
+    display:flex;
+    justify-content:center;
+    text-align:center;
+}
+
+.hero{
+    max-width:900px;
+}
+
+.title{
+    font-family:'Cinzel', serif;
+    font-size:clamp(3rem, 6vw, 5rem);
+    letter-spacing:12px;
+    font-weight:800;
+}
+
+.subtitle{
+    margin-top:18px;
+    color:#aaa;
+    line-height:1.7;
+    max-width:750px;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+/* QUOTE BOX (2 LINE GAP ABOVE) */
+.quote-box{
+    margin:60px auto 0 auto;  /* ⬅️ increased gap */
+    max-width:650px;
+    padding:18px 20px;
+    border:1px solid rgba(255,255,255,0.15);
+    border-radius:14px;
+    color:#bbb;
+    font-style:italic;
+    font-size:0.95rem;
+    line-height:1.6;
+    background:rgba(255,255,255,0.03);
+}
+
+/* DIVIDER */
+.section-divider{
+    width:100%;
+    height:1px;
+    margin:60px auto;
+    background:linear-gradient(
+        to right,
+        transparent,
+        rgba(255,255,255,0.2),
+        rgba(255,255,255,0.05),
+        rgba(255,255,255,0.2),
+        transparent
+    );
+    filter:blur(0.3px);
+}
+
+/* PSYCHOLOGY SECTION */
+.psych-section h2{
+    font-size:0.95rem;
+    letter-spacing:4px;
+    color:#888;
+    margin-bottom:10px;
+}
+
+.psych-section p{
+    font-size:0.85rem;
+    color:#666;
+    margin-bottom:22px;
+}
+
+.psych-boxes{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
+    gap:14px;
+    justify-items:center;
+}
+
+.psych-box{
+    width:100%;
+    max-width:240px;
+    padding:12px 14px;
+    border:1px solid rgba(255,255,255,0.15);
+    border-radius:12px;
+    color:#aaa;
+    font-size:0.85rem;
+    transition:0.3s ease;
+}
+
+.psych-box:hover{
+    border-color:#fff;
+    color:#fff;
+    transform:translateY(-4px);
+}
+
+/* STAY TUNED */
+.stay-tuned{
+    text-align:center;
+    padding:40px 20px;
+}
+
+.stay-title{
+    font-family:'Cinzel', serif;
+    font-size:clamp(2.2rem, 4vw, 3.5rem);
+    letter-spacing:12px;
+    font-weight:800;
+    color:#fff;
+}
+
+.stay-tuned p{
+    margin-top:10px;
+    color:#888;
+    font-size:0.85rem;
+    max-width:600px;
+    margin-left:auto;
+    margin-right:auto;
+    line-height:1.6;
+}
+
+/* CONNECT */
+.connect{
+    margin-top:20px;
+}
+
+.connect h2{
+    font-size:1rem;
+    letter-spacing:3px;
+    color:#888;
+    margin-bottom:20px;
+}
+
+.socials{
+    display:flex;
+    justify-content:center;
+    gap:18px;
+}
+
+.social-item{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    height:42px;
+    padding:0 12px;
+    border:1px solid rgba(255,255,255,0.15);
+    border-radius:12px;
+    cursor:pointer;
+    transition:0.35s ease;
+    color:#aaa;
+    text-decoration:none;
+    overflow:hidden;
+}
+
+.social-item i{
+    font-size:1.2rem;
+    width:18px;
+    text-align:center;
+}
+
+.social-item span{
+    max-width:0;
+    opacity:0;
+    white-space:nowrap;
+    font-size:0.8rem;
+    color:#777;
+    transition:0.4s ease;
+    margin-left:0;
+}
+
+.social-item:hover{
+    justify-content:flex-start;
+    border-color:#fff;
+    color:#fff;
+    transform:translateY(-2px);
+    padding-right:18px;
+}
+
+.social-item:hover span{
+    max-width:300px;
+    opacity:1;
+    margin-left:10px;
+}
+
+/* FOOTER */
+footer{
+    position:fixed;
+    bottom:0;
+    left:0;
+    width:100%;
+    text-align:center;
+    padding:14px;
+    color:#666;
+    font-size:0.8rem;
+    background:rgba(0,0,0,0.6);
+    backdrop-filter:blur(12px);
+    border-top:1px solid rgba(255,255,255,0.05);
+    z-index:999;
+}
+</style>
+</head>
+
+<body>
+
+<div id="loading">
+    <h1>SAKILA</h1>
+</div>
+
+<div class="hover-zone"></div>
+
+<header>
+    <a href="#start">Start</a>
+    <a href="#area">Area</a>
+    <a href="#connect">Connect</a>
+</header>
+
+<main>
+<div class="hero">
+
+    <div class="title" id="title"></div>
+
+    <div class="subtitle">
+        A psychology student–driven sharing platform where learners explore and exchange ideas about human behavior, cognition, emotions, memory, and neuroscience through scientific, academic, and real-world perspectives.
+    </div>
+
+    <!-- QUOTE BOX -->
+    <div class="quote-box" id="quoteBox"></div>
+
+    <div class="section-divider"></div>
+
+    <div class="psych-section" id="area">
+        <h2>PSYCHOLOGY STUDY AREAS</h2>
+        <p>Core academic domains in modern psychology and behavioral science research.</p>
+
+        <div class="psych-boxes">
+            <div class="psych-box">🧠 Cognitive Psychology</div>
+            <div class="psych-box">🧬 Behavioral Science</div>
+            <div class="psych-box">💭 Emotional Processing</div>
+            <div class="psych-box">🧩 Memory & Learning</div>
+            <div class="psych-box">👁️ Perception & Attention</div>
+            <div class="psych-box">🧠 Neuroscience</div>
+        </div>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <section id="start" class="stay-tuned">
+        <div class="stay-title">STAY TUNED</div>
+        <p>
+            New psychology insights, research discussions, and behavioral science content are coming soon.
+        </p>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <div class="connect" id="connect">
+        <h2>CONNECT</h2>
+
+        <div class="socials">
+            <a class="social-item" href="https://facebook.com" target="_blank">
+                <i class="fab fa-facebook-f"></i>
+                <span>https://facebook.com</span>
+            </a>
+
+            <a class="social-item" href="https://instagram.com" target="_blank">
+                <i class="fab fa-instagram"></i>
+                <span>https://instagram.com</span>
+            </a>
+        </div>
+    </div>
+
+</div>
+</main>
+
+<footer>
+    © 2026 SAKILA | Psychology Blogs
+</footer>
+
+<script>
+const text = "SAKILA";
+let i = 0;
+
+function startTyping(){
+    const title = document.getElementById("title");
+
+    function type(){
+        if(i < text.length){
+            title.innerHTML += text.charAt(i);
+            i++;
+            setTimeout(type, 170);
+        }
+    }
+    type();
+}
+
+const quotes = [
+    "The mind is everything. What you think you become.",
+    "We are what we repeatedly do. Excellence is not an act, but a habit.",
+    "Behavior is the mirror in which everyone shows their image.",
+    "The greatest discovery of psychology is that humans can change their mind.",
+    "Your thoughts shape your reality more than your circumstances.",
+    "Understanding the mind is the first step to understanding life."
+];
+
+function setRandomQuote(){
+    const box = document.getElementById("quoteBox");
+    const random = quotes[Math.floor(Math.random() * quotes.length)];
+    box.innerText = random;
+}
+
+window.addEventListener("load", () => {
+    setTimeout(() => {
+        document.getElementById("loading").style.display = "none";
+        startTyping();
+        setRandomQuote();
+    }, 1500);
+});
+</script>
+
+</body>
+</html>
